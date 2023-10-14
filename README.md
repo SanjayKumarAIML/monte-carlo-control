@@ -86,16 +86,13 @@ def mc_control(env, gamma=1.0, init_alpha=0.5, min_alpha=0.01, alpha_decay_ratio
         # Generate a trajectory
         traj = gen_traj(select_action, Q, epsilons[e], env, max_steps)
         visited = np.zeros((nS, nA), dtype=np.bool)
-
         for t, (state, action, reward, _, _) in enumerate(traj):
             if visited[state][action] and first_visit:
                 continue
             visited[state][action] = True
-
             n_steps = len(traj[t:])
             G = np.sum(disc[:n_steps] * traj[t:, 2])
             Q[state][action] = Q[state][action] + alphas[e] * (G - Q[state][action])
-
         Q_track[e] = Q
     # Calculate the value function and policy
     V = np.max(Q, axis=1)
