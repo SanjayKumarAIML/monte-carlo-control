@@ -97,11 +97,9 @@ def mc_control(env, gamma=1.0, init_alpha=0.5, min_alpha=0.01, alpha_decay_ratio
             Q[state][action] = Q[state][action] + alphas[e] * (G - Q[state][action])
 
         Q_track[e] = Q
-
     # Calculate the value function and policy
     V = np.max(Q, axis=1)
     pi = {s: np.argmax(Q[s]) for s in range(nS)}
-
     return Q, V, pi
 ```
 
